@@ -1,0 +1,27 @@
+NAME               FSTYPE      FSVER            LABEL                    UUID                                   FSAVAIL FSUSE% MOUNTPOINTS
+sr0                iso9660     Joliet Extension RHEL-9-8-0-BaseOS-x86_64 2026-05-11-17-14-45-00                                
+vda                                                                                                                            
+├─vda1             xfs                          b                        3c781e3e-6e58-4e5f-b5f8-51efdca0d676    707,2M    26% /boot
+└─vda2             LVM2_member LVM2 001                                  zBz2TG-5IKG-3V7c-pevj-fCv2-pa5k-Qd4j8o                
+  ├─vg_sys-lv_root xfs                                                   3be17ec3-89bd-4c4b-ac59-b01cf3c31639      8,4G    16% /
+  ├─vg_sys-lv_swap swap        1                                         7fa803e5-baba-4a93-9d13-859d9f315228                  [SWAP]
+  ├─vg_sys-lv_home xfs                                                   896dd123-7650-4feb-860a-de113acffafd      1,9G     2% /home
+  ├─vg_sys-lv_log  xfs                                                   08312633-4a09-4b0d-a131-a6e8263ab35f      1,9G     3% /var/log
+  └─vg_sys-lv_var  xfs                                                   f1dff068-b3c8-4f91-b3e8-ac623b9cc83c      4,4G    11% /var
+
+Sys. de fichiers           Type     Taille Utilisé Dispo Uti% Monté sur
+devtmpfs                   devtmpfs   831M       0  831M   0% /dev
+tmpfs                      tmpfs      854M       0  854M   0% /dev/shm
+tmpfs                      tmpfs      342M    5,0M  337M   2% /run
+/dev/mapper/vg_sys-lv_root xfs         10G    1,6G  8,4G  16% /
+/dev/vda1                  xfs        960M    253M  708M  27% /boot
+/dev/mapper/vg_sys-lv_home xfs        2,0G     47M  1,9G   3% /home
+/dev/mapper/vg_sys-lv_var  xfs        5,0G    569M  4,4G  12% /var
+/dev/mapper/vg_sys-lv_log  xfs        2,0G     56M  1,9G   3% /var/log
+tmpfs                      tmpfs      171M       0  171M   0% /run/user/1000
+
+NAME      TYPE       SIZE USED PRIO
+/dev/dm-1 partition 1024M   0B   -2
+
+TARGET   SOURCE                    FSTYPE OPTIONS
+/var/log /dev/mapper/vg_sys-lv_log xfs    rw,relatime,seclabel,attr2,inode64,logbufs=8,logbsize=32k,noquota

@@ -1,0 +1,68 @@
+[tristan@localhost ~]$ MACHINE=rhel9-lab
+[tristan@localhost ~]$ date -Is
+2026-10-02T19:32:47+02:00
+[tristan@localhost ~]$ hostnamectl | head -5
+ Static hostname: rhel9-lab
+       Icon name: computer-vm
+         Chassis: vm 🖴
+      Machine ID: 1ea7124589c141bcaa9394125c2849d3
+         Boot ID: b281c2865d7a49f488be008aa7126594
+[tristan@localhost ~]$ lsblk -f
+NAME               FSTYPE      FSVER            LABEL                    UUID                                   FSAVAIL FSUSE% MOUNTPOINTS
+sr0                iso9660     Joliet Extension RHEL-9-8-0-BaseOS-x86_64 2026-05-11-17-14-45-00                                
+vda                                                                                                                            
+├─vda1             xfs                          b                        3c781e3e-6e58-4e5f-b5f8-51efdca0d676    707,2M    26% /boot
+└─vda2             LVM2_member LVM2 001                                  zBz2TG-5IKG-3V7c-pevj-fCv2-pa5k-Qd4j8o                
+  ├─vg_sys-lv_root xfs                                                   3be17ec3-89bd-4c4b-ac59-b01cf3c31639      8,4G    16% /
+  ├─vg_sys-lv_swap swap        1                                         7fa803e5-baba-4a93-9d13-859d9f315228                  [SWAP]
+  ├─vg_sys-lv_home xfs                                                   896dd123-7650-4feb-860a-de113acffafd      1,9G     2% /home
+  ├─vg_sys-lv_log  xfs                                                   08312633-4a09-4b0d-a131-a6e8263ab35f      1,9G     3% /var/log
+  └─vg_sys-lv_var  xfs                                                   f1dff068-b3c8-4f91-b3e8-ac623b9cc83c      4,4G    11% /var
+[tristan@localhost ~]$ df -hT
+Sys. de fichiers           Type     Taille Utilisé Dispo Uti% Monté sur
+devtmpfs                   devtmpfs   831M       0  831M   0% /dev
+tmpfs                      tmpfs      854M       0  854M   0% /dev/shm
+tmpfs                      tmpfs      342M    5,0M  337M   2% /run
+/dev/mapper/vg_sys-lv_root xfs         10G    1,6G  8,4G  16% /
+/dev/vda1                  xfs        960M    253M  708M  27% /boot
+/dev/mapper/vg_sys-lv_var  xfs        5,0G    569M  4,4G  12% /var
+/dev/mapper/vg_sys-lv_home xfs        2,0G     47M  1,9G   3% /home
+/dev/mapper/vg_sys-lv_log  xfs        2,0G     56M  1,9G   3% /var/log
+tmpfs                      tmpfs      171M       0  171M   0% /run/user/0
+tmpfs                      tmpfs      171M       0  171M   0% /run/user/1000
+[tristan@localhost ~]$ swapon --show
+NAME      TYPE       SIZE USED PRIO
+/dev/dm-1 partition 1024M   0B   -2
+[tristan@localhost ~]$ systemctl --failed
+  UNIT LOAD ACTIVE SUB DESCRIPTION
+0 loaded units listed.
+
+[tristan@localhost ~]$ sudo dnf history | head -5
+Mise à jour des référentiels de gestion des abonnements.
+
+Ce système est enregistré auprès d'un serveur de droits, mais ne reçoit pas de mises à jour. Vous pouvez utiliser subscription-manager pour assigner des abonnements.
+
+ID     | Ligne de commande                                                                                                           | Date et heure    | Action(s)      | Modifié
+[tristan@localhost ~]$ sshd -T | grep -Ei 'permitrootlogin|passwordauthentication'
+permitrootlogin no
+passwordauthentication yes
+[tristan@localhost ~]$ ip -br a
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+enp1s0           UP             192.168.122.109/24 fe80::5054:ff:fe9b:b7e5/64 
+enp2s0           UP             10.42.0.141/24 fe80::5054:ff:febe:e3f6/64 
+[tristan@localhost ~]$ sudo firewall-cmd --list-all | head -20
+public (active)
+  target: default
+  icmp-block-inversion: no
+  interfaces: enp1s0 enp2s0
+  sources: 
+  services: ssh
+  ports: 
+  protocols: 
+  forward: yes
+  masquerade: no
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: 
+  rich rules: 
+[tristan@localhost ~]$ 
